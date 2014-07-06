@@ -8,8 +8,10 @@
 
     <!-- h2 is a simple database - in reality you may want to switch to postgres or so... -->
     <persistence-unit name="h2" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <provider>net.bull.javamelody.JpaPersistence</provider>
+    
         <properties>
+            <property name="net.bull.javamelody.jpa.provider" value="org.hibernate.jpa.HibernatePersistenceProvider" />
             <property name="javax.persistence.provider" value="org.hibernate.ejb.HibernatePersistence" />
             <property name="hibernate.connection.driver_class" value="net.bull.javamelody.JdbcDriver" />
             <property name="hibernate.connection.driver" value="org.h2.Driver" />
@@ -34,8 +36,10 @@
     
      <!-- h2 is a simple database - in reality you may want to switch to postgres or so... -->
     <persistence-unit name="h2_test" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <provider>net.bull.javamelody.JpaPersistence</provider>
+    
         <properties>
+            <property name="net.bull.javamelody.jpa.provider" value="org.hibernate.jpa.HibernatePersistenceProvider" />
             <property name="javax.persistence.provider" value="org.hibernate.ejb.HibernatePersistence" />
             <property name="hibernate.connection.driver_class" value="net.bull.javamelody.JdbcDriver" />
             <property name="hibernate.connection.driver" value="org.h2.Driver" />
@@ -60,9 +64,11 @@
 
     <!-- The following config is an example config for postgresql -->
     <persistence-unit name="postgresql" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
-
+        <provider>net.bull.javamelody.JpaPersistence</provider>
+    
         <properties>
+            <property name="net.bull.javamelody.jpa.provider" value="org.hibernate.jpa.HibernatePersistenceProvider" />
+        
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 
@@ -85,9 +91,11 @@
     <!-- And another persistence unit that you can set and use on your production servers.
             Quite handy because in production you may want to tune the connection pooling and so on. -->
     <persistence-unit name="production" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
-
+             <provider>net.bull.javamelody.JpaPersistence</provider>
+    
         <properties>
+            <property name="net.bull.javamelody.jpa.provider" value="org.hibernate.jpa.HibernatePersistenceProvider" />
+ 
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 
