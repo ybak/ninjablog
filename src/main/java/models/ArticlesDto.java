@@ -8,4 +8,7 @@ public class ArticlesDto {
 
     public List<Article> articles;
 
+    public ArticlesDto(List<Article> articles) {
+        this.articles = articles;
+    }
 }

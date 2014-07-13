@@ -11,66 +11,32 @@ import models.ArticleDto;
 import models.ArticlesDto;
 import models.User;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
-public class ArticleDao {
-
-    @Inject
-    Provider<EntityManager> entitiyManagerProvider;
+public class ArticleDao extends BaseDao<Article> {
 
     @Transactional
     public ArticlesDto getAllArticles() {
-
-        EntityManager entityManager = entitiyManagerProvider.get();
-
-        TypedQuery<Article> query = entityManager.createQuery("SELECT x FROM Article x", Article.class);
-        List<Article> articles = query.getResultList();
-
-        ArticlesDto articlesDto = new ArticlesDto();
-        articlesDto.articles = articles;
-
-        return articlesDto;
-
+        List<Article> articles = createQuery("FROM Article x", Article.class).getResultList();
+        return new ArticlesDto(articles);
     }
 
     @Transactional
     public Article getFirstArticleForFrontPage() {
-
-        EntityManager entityManager = entitiyManagerProvider.get();
-
-        TypedQuery<Article> q = entityManager.createQuery("SELECT x FROM Article x ORDER BY x.postedAt DESC",
-                Article.class);
-        List<Article> list = q.getResultList();
-
-        return list.size() > 0 ? list.get(0) : null;
-
+        TypedQuery<Article> query = createQuery("FROM Article ORDER BY postedAt DESC", Article.class);
+        return first(query);
     }
 
     @Transactional
     public List<Article> getOlderArticlesForFrontPage() {
-
-        EntityManager entityManager = entitiyManagerProvider.get();
-
-        Query q = entityManager.createQuery("SELECT x FROM Article x ORDER BY x.postedAt DESC");
-        List<Article> articles = (List<Article>) q.setFirstResult(1).setMaxResults(10).getResultList();
-
-        return articles;
-
+        TypedQuery<Article> q = createQuery("FROM Article ORDER BY postedAt DESC", Article.class);
+        return subResult(q, 1, 10);
     }
 
     @Transactional
     public Article getArticle(Long id) {
-
-        EntityManager entityManager = entitiyManagerProvider.get();
-
-        Query q = entityManager.createQuery("SELECT x FROM Article x WHERE x.id = :idParam");
-        Article article = (Article) q.setParameter("idParam", id).getSingleResult();
-
-        return article;
-
+        TypedQuery<Article> query = createQuery("SELECT x FROM Article x WHERE x.id = :idParam", Article.class);
+        return query.setParameter("idParam", id).getSingleResult();
     }
 
     /**
@@ -79,7 +45,7 @@ public class ArticleDao {
     @Transactional
     public boolean postArticle(String username, ArticleDto articleDto) {
 
-        EntityManager entityManager = entitiyManagerProvider.get();
+        EntityManager entityManager = em();
 
         Query query = entityManager.createQuery("SELECT x FROM User x WHERE username = :usernameParam");
         User user = (User) query.setParameter("usernameParam", username).getSingleResult();

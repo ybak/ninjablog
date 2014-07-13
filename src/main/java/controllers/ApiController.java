@@ -24,7 +24,6 @@ import ninja.Results;
 import ninja.SecureFilter;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import dao.ArticleDao;
 import etc.LoggedInUser;
@@ -51,8 +50,7 @@ public class ApiController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result postArticleJson(@LoggedInUser String username,
-                                  ArticleDto articleDto) {
+    public Result postArticleJson(@LoggedInUser String username, ArticleDto articleDto) {
 
         boolean succeeded = articleDao.postArticle(username, articleDto);
 
@@ -65,8 +63,7 @@ public class ApiController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result postArticleXml(@LoggedInUser String username,
-                                 ArticleDto articleDto) {
+    public Result postArticleXml(@LoggedInUser String username, ArticleDto articleDto) {
 
         boolean succeeded = articleDao.postArticle(username, articleDto);
 

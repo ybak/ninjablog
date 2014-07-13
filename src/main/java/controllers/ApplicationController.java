@@ -25,7 +25,6 @@ import ninja.Results;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import dao.ArticleDao;
 import dao.SetupDao;
@@ -65,8 +64,7 @@ public class ApplicationController {
         map.put("frontArticle", frontPost);
         map.put("olderArticles", olderPosts);
 
-        return Results.html().render("frontArticle", frontPost)
-                .render("olderArticles", olderPosts);
+        return Results.html().render("frontArticle", frontPost).render("olderArticles", olderPosts);
 
     }
 }
